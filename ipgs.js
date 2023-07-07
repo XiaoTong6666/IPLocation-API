@@ -4,28 +4,28 @@ const url = require('url');
 async function gyuan(ip) {
   const hyuan = await fetch(`https://www.ipshudi.com/${ip}.htm`, {
     headers: {
-      accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-      'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',
-      'cache-control': 'no-cache',
-      pragma: 'no-cache',
-      'sec-fetch-dest': 'document',
-      'sec-fetch-mode': 'navigate',
-      'sec-fetch-site': 'none',
-      'sec-fetch-user': '?1',
-      'upgrade-insecure-requests': '1',
-    },
-    referrerPolicy: 'no-referrer-when-downgrade',
-    body: null,
-    method: 'GET',
-    mode: 'cors',
+   accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',
+  'cache-control': 'no-cache',
+  pragma: 'no-cache',
+  'sec-fetch-dest': 'document',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-site': 'same-origin',
+  'sec-fetch-user': '?1',
+  'upgrade-insecure-requests': '1',
+  cookie: 'Hm_lvt_c375abc2df71accdca3ace57d488f925=1688759396; PHPSESSID=jt57s2f3r3ogtmr8l03qj91tau; Hm_lpvt_c375abc2df71accdca3ace57d488f925=1688759468'
+},
+  referrerPolicy: 'unsafe-url',
+  body: null,
+  method: 'GET',
+  mode: 'cors'
   });
   const htm = await hyuan.text();
   const $ = cheerio.load(htm);
- const yuan = {
-  1: $('tr[style="color:#2095f2"] td:nth-child(1)').text(),
-  2: $('tr[style="color:#2095f2"] td:nth-child(2)').text(),
-  3: $('tr[style="color:#2095f2"] td:nth-child(3)').text(),
-  4: $('tr[style="color:#2095f2"] td:nth-child(4)').text(),
+const yuan = {
+  1: $('tr:nth-child(2) span').text().trim(),
+  2: $('tr:nth-child(3) span').text().trim(),
+  3: $('tr:nth-child(4) span').text().trim(),
 };
   return yuan;
 }
@@ -43,4 +43,4 @@ http.createServer((req, res) => {
       res.end();
     });
   } 
-}).listen(100);
+}).listen(102);
